@@ -1,6 +1,7 @@
 <?php
 
 use Faker\Generator as Faker;
+use Acme\Domains\Users\Models as Models;
 
 use Faker\Factory as FakerFactory;
 /*
@@ -14,16 +15,27 @@ use Faker\Factory as FakerFactory;
 |
 */
 
-$factory->define(Acme\Domains\Users\Models\User::class, function (Faker $faker) {
-    static $password;
+$children = [
+    Models\User::class,
+    Models\Admin::class,
+    Models\Operator::class,
+    Models\Staff::class,
+    Models\Subscriber::class,
+    Models\Worker::class,
+];
 
-    $faker = FakerFactory::create('en_PH');
+foreach ($children as $child) {
+    $factory->define($child, function (Faker $faker) {
+	    static $password;
+    	$faker = FakerFactory::create('en_PH');
 
-    return [
-        'name' => $faker->username,
-        'mobile' => $faker->mobileNumber,
-        'email' => $faker->unique()->safeEmail,
-        'password' => $password ?: $password = bcrypt('1234'),
-        'remember_token' => str_random(10),
-    ];
-});
+	    return [
+	        'name' => $faker->username,
+	        'mobile' => $faker->mobileNumber,
+	        'email' => $faker->unique()->safeEmail,
+	        'password' => $password ?: $password = bcrypt('1234'),
+	        'remember_token' => str_random(10),
+		    ];
+    });
+}
+

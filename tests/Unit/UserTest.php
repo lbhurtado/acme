@@ -5,14 +5,22 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Acme\Domains\Users\Models as Models;
+use Acme\Domains\Users\Models\{User, Admin};
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-
-use Acme\Domains\Users\Models\User;
 
 class UserTest extends TestCase
 {
 	use RefreshDatabase;
+
+	protected $classes = [
+		Models\Admin::class,
+		Models\Operator::class,
+		Models\Staff::class,
+		Models\Subscriber::class,
+		Models\Worker::class,
+	];
 
     /** @test */
     public function user_has_required_mobile_attribute()
@@ -42,14 +50,14 @@ class UserTest extends TestCase
         $this->assertDatabaseHas('users', compact('mobile'));
     }
 
-    /** @test */
-    public function user_mobile_field_has_ph_phone_validation()
-    {
-    	$this->expectException(\Illuminate\Validation\ValidationException::class);    	
-    	$mobile = '1234567';
+    // /** @test */
+    // public function user_mobile_field_has_phone_validation()
+    // {
+    // 	$this->expectException(\Illuminate\Validation\ValidationException::class);    	
+    // 	$mobile = '1234';
 
-    	factory(User::class)->create(compact('mobile'));
-    }
+    // 	factory(User::class)->create(compact('mobile'));
+    // }
 
     /** @test */
     public function user_can_have_uplines_and_downlines()
@@ -94,5 +102,32 @@ class UserTest extends TestCase
 
         $this->assertTrue($user->hasPermissionTo('edit articles'));
         $this->assertTrue($user->hasPermissionTo('delete articles'));
+    }
+
+    /** @test */
+    function child_model_is_essentially_a_user_with_a_type()
+    {
+    	foreach ($this->classes as $class) {
+		    $descendant = factory($class)->create();
+	  		$user = User::find($descendant->id);
+
+		    $this->assertEquals($user->id, $descendant->id);
+		    $this->assertEquals($user->type, $class);
+            $this->assertInstanceOf($class, $user);
+    	}
+    }
+
+    /** @test */
+    function child_model_has_a_child_role()
+    {	
+    	foreach ($this->classes as $class) {
+		    $descendant = factory($class)->create();
+
+ 			$this->assertDatabaseHas('roles', [
+ 				'name' 		 => $descendant::$role, 
+ 				'guard_name' => $descendant->getGuardName()
+ 			]);
+    		$this->assertTrue($descendant->hasRole($descendant::$role)); 
+    	}
     }
 }

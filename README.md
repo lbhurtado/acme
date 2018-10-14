@@ -6,19 +6,8 @@ The quick brown fox...
 
 ## Code Samples
 
+```php
 <?php
-
-namespace Tests\Unit;
-
-use Tests\TestCase;
-use Clarion\Domain\Models\User;
-use Clarion\Domain\Models\Mobile;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
-use Clarion\Domain\Contracts\UserRepository;
-use Clarion\Domain\Criteria\HasTheFollowing;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UserTest extends TestCase
 {
@@ -174,7 +163,7 @@ class UserTest extends TestCase
         $this->assertEquals($user2->ancestors[0]->id, $user1->id);
     }
 }
-
+```
 
 ## Installation
 

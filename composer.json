@@ -20,8 +20,11 @@
         "kalnoy/nestedset": "^4.3",
         "laravel/framework": "5.7.*",
         "laravel/tinker": "~1.0",
+        "myclabs/php-enum": "^1.6",
         "propaganistas/laravel-phone": "^4.0",
-        "spatie/laravel-permission": "^2.22"
+        "spatie/laravel-permission": "^2.22",
+        "spatie/laravel-validation-rules": "^1.0",
+        "tightenco/parental": "^0.5.0"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.2",
