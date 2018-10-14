@@ -2,6 +2,7 @@
 
 use Faker\Generator as Faker;
 
+use Faker\Factory as FakerFactory;
 /*
 |--------------------------------------------------------------------------
 | Model Factories
@@ -16,9 +17,11 @@ use Faker\Generator as Faker;
 $factory->define(Acme\Domains\Users\Models\User::class, function (Faker $faker) {
     static $password;
 
+    $faker = FakerFactory::create('en_PH');
+
     return [
         'name' => $faker->username,
-        'mobile' => $faker->phoneNumber,
+        'mobile' => $faker->mobileNumber,
         'email' => $faker->unique()->safeEmail,
         'password' => $password ?: $password = bcrypt('1234'),
         'remember_token' => str_random(10),
