@@ -16,8 +16,10 @@
         "botman/studio-addons": "~1.4.1",
         "botman/tinker": "~1.0",
         "fideloper/proxy": "~4.0",
+        "five-say/laravel-model-ext-trait": "^1.1",
         "laravel/framework": "5.7.*",
-        "laravel/tinker": "~1.0"
+        "laravel/tinker": "~1.0",
+        "propaganistas/laravel-phone": "^4.0"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.2",
