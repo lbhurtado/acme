@@ -3,11 +3,11 @@
 namespace Acme\Domains\Users\Models;
 
 use Acme\Domains\Users\Traits\HasParentModel;
-use Illuminate\Database\Eloquent\Model;
+use Acme\Domains\Users\Constants as Constants;
 
 class Operator extends User
 {
 	use HasParentModel;
 
-	public static $role = UserType::OPERATOR;
+	public static $role = Constants\UserRole::OPERATOR;
 }

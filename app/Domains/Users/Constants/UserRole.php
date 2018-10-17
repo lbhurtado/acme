@@ -1,13 +1,10 @@
 <?php
 
-namespace Acme\Domains\Users\Models;
+namespace Acme\Domains\Users\Constants;
 
 use MyCLabs\Enum\Enum;
 
-/**
- * UserType enum
- */
-class UserType extends Enum
+class UserRole extends Enum
 {
     const ADMIN    		= 'admin';
     const OPERATOR   	= 'operator';

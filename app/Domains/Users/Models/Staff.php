@@ -3,11 +3,11 @@
 namespace Acme\Domains\Users\Models;
 
 use Acme\Domains\Users\Traits\HasParentModel;
-use Illuminate\Database\Eloquent\Model;
+use Acme\Domains\Users\Constants as Constants;
 
 class Staff extends User
 {
 	use HasParentModel;
 
-	public static $role = UserType::STAFF;
+	public static $role = Constants\UserRole::STAFF;
 }
