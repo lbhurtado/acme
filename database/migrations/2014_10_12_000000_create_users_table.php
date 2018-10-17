@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('type')->nullable();
             $table->nestedSet();
+            $table->schemalessAttributes('extra_attributes');
             $table->rememberToken();
             $table->timestamps();
         });

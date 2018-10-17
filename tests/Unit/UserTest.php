@@ -130,4 +130,14 @@ class UserTest extends TestCase
     		$this->assertTrue($descendant->hasRole($descendant::$role)); 
     	}
     }
+
+    /** @test */
+    function user_has_schemaless_attributes()
+    {
+        $user = factory(User::class)->create();
+        $value = 'value';
+        $user->extra_attributes->name = $value;
+
+        $this->assertEquals($user->extra_attributes->name, $value);
+    }
 }

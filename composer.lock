@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f0450add1475e157b84dde55d8ec76bb",
+    "content-hash": "4c6edc474b24a57fd92d349753ecb9f7",
     "packages": [
         {
             "name": "botman/botman",
@@ -2830,6 +2830,63 @@
                 "spatie"
             ],
             "time": "2018-10-12T00:42:03+00:00"
+        },
+        {
+            "name": "spatie/laravel-schemaless-attributes",
+            "version": "1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/laravel-schemaless-attributes.git",
+                "reference": "07fb75b36a5075a5bc15ba2ec5e5b8355feb22e8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/laravel-schemaless-attributes/zipball/07fb75b36a5075a5bc15ba2ec5e5b8355feb22e8",
+                "reference": "07fb75b36a5075a5bc15ba2ec5e5b8355feb22e8",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "^5.6",
+                "illuminate/support": "^5.6",
+                "php": "^7.1"
+            },
+            "require-dev": {
+                "larapack/dd": "^1.0",
+                "orchestra/testbench": "^3.6",
+                "phpunit/phpunit": "^7.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Spatie\\SchemalessAttributes\\SchemalessAttributesServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\SchemalessAttributes\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Add schemaless attributes to Eloquent models",
+            "homepage": "https://github.com/spatie/laravel-schemaless-attributes",
+            "keywords": [
+                "laravel-schemaless-attributes",
+                "spatie"
+            ],
+            "time": "2018-09-11T07:01:44+00:00"
         },
         {
             "name": "spatie/laravel-validation-rules",
