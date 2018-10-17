@@ -130,22 +130,4 @@ class UserTest extends TestCase
     		$this->assertTrue($descendant->hasRole($descendant::$role)); 
     	}
     }
-
-    /** @test */
-    function user_has_schemaless_attributes()
-    {
-        $user = factory(User::class)->create();
-        $string = 'string';
-        $array = ['array' => 'array'];
-
-        $user->extra_attributes->string = $string;
-        $user->extra_attributes->array = $array;
-        $user->save();
-
-        $this->assertEquals($user->extra_attributes->string, $string);
-        $this->assertEquals($user->extra_attributes->array, $array);
-        $this->assertDatabaseHas('users', [
-            'extra_attributes' => json_encode(compact('string','array'))
-        ]);   
-    }
 }
