@@ -151,6 +151,8 @@ return [
          */
         Laravel\Tinker\TinkerServiceProvider::class,
 
+        CawaKharkov\LaravelBalance\LaravelBalanceServiceProvider::class,
+
         /*
          * BotMan Service Providers...
          */

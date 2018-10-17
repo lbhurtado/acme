@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4c6edc474b24a57fd92d349753ecb9f7",
+    "content-hash": "2d59124389eebf2fba0ed68e36f442c6",
     "packages": [
         {
             "name": "botman/botman",
@@ -258,6 +258,44 @@
                 "laravel"
             ],
             "time": "2018-02-19T19:59:06+00:00"
+        },
+        {
+            "name": "cawakharkov/laravel-balance",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/CawaKharkov/laravel-balance.git",
+                "reference": "9c297dc9675527b4be96699671ae26e76475a466"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/CawaKharkov/laravel-balance/zipball/9c297dc9675527b4be96699671ae26e76475a466",
+                "reference": "9c297dc9675527b4be96699671ae26e76475a466",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5.3",
+                "laravel/framework": "~5.3",
+                "php": ">=5.6.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "CawaKharkov\\LaravelBalance\\": "src/LaravelBalance"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Aleksandr Zamiatin",
+                    "email": "cawa123@mail.ru"
+                }
+            ],
+            "description": "Laravel package that provide user balance and transactions functionality for Laravel 5",
+            "time": "2017-02-28T12:52:27+00:00"
         },
         {
             "name": "clue/stdio-react",
@@ -6018,7 +6056,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "cawakharkov/laravel-balance": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

@@ -15,6 +15,7 @@
         "botman/driver-web": "~1.0",
         "botman/studio-addons": "~1.4.1",
         "botman/tinker": "~1.0",
+        "cawakharkov/laravel-balance": "dev-master",
         "fideloper/proxy": "~4.0",
         "five-say/laravel-model-ext-trait": "^1.1",
         "kalnoy/nestedset": "^4.3",
