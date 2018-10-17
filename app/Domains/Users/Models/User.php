@@ -27,4 +27,8 @@ class User extends Model
 		'mobile',
 		'name',
 	];
+
+    public $casts = [
+        'extra_attributes' => 'array',
+    ];
 }

@@ -135,9 +135,15 @@ class UserTest extends TestCase
     function user_has_schemaless_attributes()
     {
         $user = factory(User::class)->create();
-        $value = 'value';
-        $user->extra_attributes->name = $value;
+        $string = 'string';
+        $array = ['array' => 'array'];
 
-        $this->assertEquals($user->extra_attributes->name, $value);
+        $user->extra_attributes->string = $string;
+        $user->extra_attributes->array = $array;
+        $user->save();
+
+        $this->assertEquals($user->extra_attributes->string, $string);
+        $this->assertEquals($user->extra_attributes->array, $array);
+        $this->assertDatabaseHas('users', ['extra_attributes' => json_encode(compact('string','array'))]);   
     }
 }
