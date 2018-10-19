@@ -6,6 +6,7 @@ use Kalnoy\Nestedset\NodeTrait;
 use FiveSay\Laravel\Model\ExtTrait;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 use Tightenco\Parental\ReturnsChildModels;
 use Acme\Domains\Secretariat\Models\Placement;
 use CawaKharkov\LaravelBalance\Models\UserBalance;
@@ -21,6 +22,8 @@ class User extends Model implements UserHasBalance
 	use ExtTrait, NodeTrait, HasRoles, ReturnsChildModels;
 
     use HasSchemalessAttributes, UserBalance;
+
+    use Notifiable;
 
     protected $guard_name = 'web';
 
@@ -76,5 +79,16 @@ class User extends Model implements UserHasBalance
     public function placements()
     {
         return $this->hasMany(Placement::class);
+    }
+
+    /**
+     * Route notifications for the Nexmo channel.
+     *
+     * @param  \Illuminate\Notifications\Notification  $notification
+     * @return string
+     */
+    public function routeNotificationForTwilio($notification)
+    {
+        return $this->mobile;
     }
 }
