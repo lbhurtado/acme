@@ -17,27 +17,49 @@ class Placement extends Model
 		'message',
 	];
 
+    protected $model;
+
     public static function activate($code, $attributes = [])
     {
-        $placement = static::where('code', $code)->firstOrFail();
+        return self::bearing($code)
+            ->conjure($attributes)
+            ->appendToParent()
+            ->getModel();
+    }
 
+    protected function upline()
+    {
+        return User::findOrFail($this->user->id);
+    }
+
+    protected function conjure($attributes = [])
+    {
         $attributes['password'] = env('DEFAULT_PIN', '1234');
-        $user = $placement->type::create($attributes);  
+        
+        $this->model = $this->type::create($attributes);
 
-        $parent = User::findOrFail($placement->user_id);
+        return $this;
+    }
 
-        $parent->appendNode($user);
+    protected function appendToParent()
+    {
+        $this->upline()->appendNode($this->model);
 
-        return $user;
+        return $this;
+    }
+
+    protected function getModel()
+    {
+        return $this->model;
     }
 
     public function user()
     {
-    	return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class);
     }
-
-    public function upline()
+    
+    public function scopeBearing($query, $code)
     {
-        return User::findOrFail($this->user->id);
+        return $query->where('code', $code)->firstOrFail();
     }
 }

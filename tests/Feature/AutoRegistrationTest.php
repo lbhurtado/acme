@@ -103,5 +103,8 @@ class AutoRegistrationTest extends TestCase
 		};
 
 		$traverse($nodes);
+        echo PHP_EOL.' ';
+        echo PHP_EOL.' ';
+
     }
 }
