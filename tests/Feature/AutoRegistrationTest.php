@@ -65,7 +65,8 @@ class AutoRegistrationTest extends TestCase
 
 		$mobile = $this->faker->mobileNumber;
 		$name = $this->faker->name;
-		$downline = Placement::activate($code, compact('mobile', 'name'));
+        $email = $this->faker->email;
+		$downline = Placement::activate($code, compact('mobile', 'name', 'email'));
 
 		$this->assertInstanceOf($type, $downline);
     	$this->assertEquals($upline->descendants[0]->id, $downline->id);
@@ -87,7 +88,8 @@ class AutoRegistrationTest extends TestCase
 
 		$mobile = $this->faker->mobileNumber;
 		$name = $this->faker->name;
-		$downline = Placement::activate($code, compact('mobile', 'name'));
+		$email = $this->faker->email;
+        $downline = Placement::activate($code, compact('mobile', 'name', 'email'));
 
 		$this->assertInstanceOf($type, $downline);
     	$this->assertEquals($downline->ancestors[0]->id, $upline->id);
@@ -96,7 +98,7 @@ class AutoRegistrationTest extends TestCase
 
 		$traverse = function ($categories, $prefix = '-') use (&$traverse) {
 		    foreach ($categories as $category) {
-		        echo PHP_EOL.$prefix.' '.$category->name;
+		        echo PHP_EOL.$prefix.' '.$category->name.' ('.$category->email.')';
 
 		        $traverse($category->children, $prefix.'-');
 		    }

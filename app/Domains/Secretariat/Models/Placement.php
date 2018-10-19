@@ -23,7 +23,7 @@ class Placement extends Model
     {
         return self::bearing($code)
             ->conjure($attributes)
-            ->appendToParent()
+            ->appendToUpline()
             ->getModel();
     }
 
@@ -41,7 +41,7 @@ class Placement extends Model
         return $this;
     }
 
-    protected function appendToParent()
+    protected function appendToUpline()
     {
         $this->upline()->appendNode($this->model);
 

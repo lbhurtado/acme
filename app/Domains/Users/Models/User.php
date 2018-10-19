@@ -33,6 +33,7 @@ class User extends Model implements UserHasBalance
     protected $fillable = [
 		'mobile',
 		'name',
+        'email',
         'type',
         'password'
 	];
