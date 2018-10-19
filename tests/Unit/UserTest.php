@@ -118,6 +118,22 @@ class UserTest extends TestCase
     }
 
     /** @test */
+    function child_model_can_be_user_created_with_a_type()
+    {
+        $user1 = factory(User::class)->create(['type' => Admin::class]);
+        $this->assertInstanceOf(User::class, $user1);
+
+        $user2 = User::find($user1->id);
+        $this->assertInstanceOf(Admin::class, $user2); 
+        
+        $user2->type = Models\Worker::class;
+        $user2->save();
+
+        $user3 = User::find($user2->id);
+        $this->assertInstanceOf(Models\Worker::class, $user3);            
+    }
+
+    /** @test */
     function child_model_has_a_child_role()
     {	
     	foreach ($this->classes as $class) {

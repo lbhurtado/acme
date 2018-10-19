@@ -15,8 +15,15 @@ trait HasParentModel
 
     public static function bootHasParentModel()
     {
-        static::parentBootHasParentModel();
-
+        // static::parentBootHasParentModel();
+        static::creating(function ($model) {
+            if ($model->parentHasReturnsChildModelsTrait()) {
+                $model->forceFill(
+                    [$model->getInhertanceColumn() => $model->classToAlias(get_class($model))]
+                );
+            }
+        });
+        
         static::created(function ($model) {
         
             if (!isset(self::$role)) {

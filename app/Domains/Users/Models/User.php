@@ -7,11 +7,13 @@ use FiveSay\Laravel\Model\ExtTrait;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Model;
 use Tightenco\Parental\ReturnsChildModels;
+use Acme\Domains\Secretariat\Models\Placement;
 use CawaKharkov\LaravelBalance\Models\UserBalance;
 use Acme\Domains\Users\Traits\HasSchemalessAttributes;
 use CawaKharkov\LaravelBalance\Models\BalanceTransaction;
 use CawaKharkov\LaravelBalance\Interfaces\UserHasBalance;
 
+use Acme\Domains\Secretariat\Models\Checkin;
 
 
 class User extends Model implements UserHasBalance
@@ -31,11 +33,21 @@ class User extends Model implements UserHasBalance
     protected $fillable = [
 		'mobile',
 		'name',
+        'type',
+        'password'
 	];
 
     public $casts = [
         'extra_attributes' => 'array',
     ];
+
+    // protected $childTypeAliases = [
+    //     'admin' => Admin::class,
+    //     'operator' => Operator::class,
+    //     'staff' => Staff::class,
+    //     'subscriber' => Subscriber::class,
+    //     'worker' => Worker::class,
+    // ];
 
     public function transactions()
     {
@@ -58,5 +70,10 @@ class User extends Model implements UserHasBalance
             ->sum('value');
 
         return (int)($income - $outcome - $outcomePay);
+    }
+
+    public function placements()
+    {
+        return $this->hasMany(Placement::class);
     }
 }

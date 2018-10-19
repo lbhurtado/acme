@@ -16,6 +16,6 @@ class AdminSeeder extends Seeder
         	'eyJpdiI6InZkRUpOYXdoSENKOTkzYTBBYmoyVnc9PSIsInZhbHVlIjoibDQyRWFIcmVEWWEwcmhjdGhualdxQ2c1ZE5CTVB5NzlUTFdieWN2SjFRdz0iLCJtYWMiOiIxMTMwZmRlYzFkZjhlMGE2NjA1NzUyMjFiNmI3NDQ5NjNhMjdmY2U1YTdiMzk2ODVjNGQ0YzVkNDliNjY3OTllIn0='));
         $password = '$2y$10$gz7MXG5YLhKykthNDjkfWu.fV80v.WpS..xn3T5SOza2Vo7tfGHtG';
         
-        Admin::create(compact('mobile', 'name', 'password'))->givePermissionTo(Constants\UserPermission::CREATE_PLACEMENT);
+        Admin::create(compact('mobile', 'name', 'password'))->givePermissionTo(Constants\UserPermission::CREATE_PLACEMENT)->makeRoot()->save();
     }
 }
