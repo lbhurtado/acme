@@ -25,6 +25,8 @@ class AutoRegistrationTest extends TestCase
     {
         parent::setUp();
 
+        $this->withoutEvents();
+
         $this->faker = $this->makeFaker('en_PH');
 
         $this->artisan('db:seed', ['--class' => 'DatabaseSeeder']);

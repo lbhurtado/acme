@@ -12,6 +12,13 @@ class BalanceTest extends TestCase
 {
 	use RefreshDatabase;
 
+    function setUp()
+    {
+        parent::setUp();
+
+        $this->withoutEvents();
+    }
+    
     /** @test */
     public function user_model_has_balance()
     {

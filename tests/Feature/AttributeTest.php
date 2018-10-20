@@ -11,6 +11,13 @@ class AttributeTest extends TestCase
 {
 	use RefreshDatabase;
 
+    function setUp()
+    {
+        parent::setUp();
+
+        $this->withoutEvents();
+    }
+
     /** @test */
     function user_has_schemaless_attributes()
     {

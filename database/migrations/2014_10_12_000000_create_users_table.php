@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration
             $table->schemalessAttributes('extra_attributes');
             $table->string('authy_id')->unique()->nullable();
             $table->rememberToken();
+            $table->timestamp('verified_at')->nullable();
             $table->timestamps();
         });
     }

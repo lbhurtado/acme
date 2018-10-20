@@ -22,6 +22,13 @@ class UserTest extends TestCase
 		Models\Worker::class,
 	];
 
+    function setUp()
+    {
+        parent::setUp();
+
+        $this->withoutEvents();
+    }
+
     /** @test */
     public function user_has_required_mobile_attribute()
     {

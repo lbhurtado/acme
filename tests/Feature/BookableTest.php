@@ -12,6 +12,13 @@ class BookableTest extends TestCase
 {
 	use RefreshDatabase;
 
+    function setUp()
+    {
+        parent::setUp();
+
+        $this->withoutEvents();
+    }
+    
     /** @test */
     public function worker_has_a_rate()
     {

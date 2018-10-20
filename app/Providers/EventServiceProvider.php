@@ -2,6 +2,8 @@
 
 namespace Acme\Providers;
 
+use Acme\Domains\Users\Events as Events;
+use Acme\Domains\Users\Listeners as Listeners;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -13,9 +15,12 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'Acme\Events\Event' => [
-            'Acme\Listeners\EventListener',
+        Events\UserWasRecorded::class => [
+            Listeners\Capture\UserMobileData::class,
         ],
+        Events\UserWasRegistered::class => [
+            Listeners\Notify\UserAboutVerification::class,
+        ],        
     ];
 
     /**
