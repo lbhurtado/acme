@@ -10,12 +10,9 @@ use Illuminate\Notifications\Notifiable;
 use Tightenco\Parental\ReturnsChildModels;
 use Acme\Domains\Secretariat\Models\Placement;
 use CawaKharkov\LaravelBalance\Models\UserBalance;
-use Acme\Domains\Users\Traits\HasSchemalessAttributes;
 use CawaKharkov\LaravelBalance\Models\BalanceTransaction;
 use CawaKharkov\LaravelBalance\Interfaces\UserHasBalance;
-
-use Acme\Domains\Secretariat\Models\Checkin;
-
+use Acme\Domains\Users\Traits\{HasSchemalessAttributes, HasAuthy};
 
 class User extends Model implements UserHasBalance
 {
@@ -24,6 +21,11 @@ class User extends Model implements UserHasBalance
     use HasSchemalessAttributes, UserBalance;
 
     use Notifiable;
+
+
+    protected $dispatchesEvents = [
+        'created' => \Acme\Domains\Users\UserWasRecorded::class,
+    ];
 
     protected $guard_name = 'web';
 
@@ -44,14 +46,6 @@ class User extends Model implements UserHasBalance
     public $casts = [
         'extra_attributes' => 'array',
     ];
-
-    // protected $childTypeAliases = [
-    //     'admin' => Admin::class,
-    //     'operator' => Operator::class,
-    //     'staff' => Staff::class,
-    //     'subscriber' => Subscriber::class,
-    //     'worker' => Worker::class,
-    // ];
 
     public function transactions()
     {
@@ -82,7 +76,7 @@ class User extends Model implements UserHasBalance
     }
 
     /**
-     * Route notifications for the Nexmo channel.
+     * Route notifications for the Twilio channel.
      *
      * @param  \Illuminate\Notifications\Notification  $notification
      * @return string
@@ -90,5 +84,15 @@ class User extends Model implements UserHasBalance
     public function routeNotificationForTwilio($notification)
     {
         return $this->mobile;
+    }
+
+    /**
+     * Route notifications for the Authy channel.
+     *
+     * @return int
+     */
+    public function routeNotificationForAuthy()
+    {
+        return $this->authy_id;
     }
 }

@@ -20,6 +20,7 @@
         "five-say/laravel-model-ext-trait": "^1.1",
         "gr8shivam/laravel-sms-api": "^3.0",
         "kalnoy/nestedset": "^4.3",
+        "laravel-notification-channels/authy": "^4.0",
         "laravel-notification-channels/twilio": "^2.0",
         "laravel/framework": "5.7.*",
         "laravel/tinker": "~1.0",

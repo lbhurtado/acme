@@ -48,4 +48,8 @@ return [
         'account_sid' => env('TWILIO_ACCOUNT_SID'),
         'from' => env('TWILIO_FROM'), // optional
     ],
+
+    'authy' => [
+        'secret' => env('AUTHY_SECRET'),
+    ],
 ];

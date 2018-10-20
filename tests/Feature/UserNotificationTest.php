@@ -6,28 +6,38 @@ use Tests\TestCase;
 use Acme\Domains\Users\Models\User;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Acme\Domains\Users\Notifications\UserVerified;
+use Acme\Domains\Users\Notifications\PhoneVerification;
 
 use Illuminate\Support\Facades\Notification;
-use NotificationChannels\Twilio\TwilioChannel;
+// use NotificationChannels\Twilio\TwilioChannel;
 
 class UserNotificationTest extends TestCase
 {
-	use RefreshDatabase;
+	use RefreshDatabase, WithFaker;
 
     /** @test */
-    public function user_can_be_notified()
+    public function user_can_be_notified_for_phone_verification()
     {
-    	$user = factory(User::class)->create(['mobile' => '+639173011987']);
+    	$user = factory(User::class)->create([
+    		'mobile' => '+639173011987',
+    		'authy_id' => '7952368',
+    	]);
    
-    	$user->notify(new UserVerified());
+   		Notification::fake();
 
-     //    $this->assertEquals($error_code, 21212);
+   		$actionName = $this->faker->word;
+   		$actionMessage = $this->faker->sentence;
 
-		// Notification::route('mail', 'taylor@example.com')
-  //           ->route('nexmo', '+639173011987')
-  //           ->route(TwilioChannel::class, '+639173011987')
-  //           ->notify(new UserVerified());
+		$user->notify(new PhoneVerification('sms', true, $actionName, $actionMessage));
 
+        Notification::assertSentTo($user,
+        	PhoneVerification::class,
+        	function ($notification, $channels) use ($actionName, $actionMessage) {
+				$this->assertEquals($notification->action, $actionName);
+				$this->assertEquals($notification->actionMessage, $actionMessage);
+
+				return $notification->method === 'sms';
+			}
+		);
     }
 }

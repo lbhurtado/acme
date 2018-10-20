@@ -34,6 +34,7 @@ foreach ($children as $child) {
 	        'mobile' => $faker->mobileNumber,
 	        'email' => $faker->unique()->safeEmail,
 	        'password' => $password ?: $password = bcrypt('1234'),
+            'authy_id' => $faker->randomNumber(7),
 	        'remember_token' => str_random(10),
 		    ];
     });
