@@ -19,6 +19,16 @@ class Placement extends Model
 
     protected $model;
 
+    public static function record($attributes, $user = null)
+    {
+        return tap(static::firstOrNew($attributes), function ($placement) use ($user) {
+            if (! is_null($user))
+                $placement->user()
+                    ->associate($user)
+                    ->save();
+        });
+    }
+
     public static function activate($code, $attributes = [])
     {
         return self::bearing($code)

@@ -54,10 +54,8 @@ class AutoRegistrationTest extends TestCase
    		$upline = Models\Admin::first();
 		$code =  $this->faker->word;
 		$type = Models\Operator::class;
-		$placement = tap(
-			$upline->placements()->make(compact('code', 'type')), function ($placement) use ($upline) {
-				$placement->user()->associate($upline)->save();		
-			});
+
+        Placement::record(compact('code', 'type'), $upline);
 
         $this->assertDatabaseHas('placements', [
         	'user_id' => $upline->id, 
@@ -77,10 +75,8 @@ class AutoRegistrationTest extends TestCase
    		$upline = Models\Operator::first();
 		$code =  $this->faker->word;
 		$type = Models\Worker::class;
-		$placement = tap(
-			$upline->placements()->make(compact('code', 'type')), function ($placement) use ($upline) {
-				$placement->user()->associate($upline)->save();		
-			});
+
+        Placement::record(compact('code', 'type'), $upline);
 
         $this->assertDatabaseHas('placements', [
         	'user_id' => $upline->id, 
