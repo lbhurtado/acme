@@ -7,11 +7,12 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Acme\Domains\Secretariat\Models\Mobile;
 
 class RegisterAuthyService implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
+    protected $proto;
 
     public $user;
 
@@ -23,6 +24,10 @@ class RegisterAuthyService implements ShouldQueue
     public function __construct($user)
     {        
         $this->user = $user;
+
+        $util = \libphonenumber\PhoneNumberUtil::getInstance();
+
+        $this->proto = $util->parse($this->user->mobile, "PH");
     }
 
     /**
@@ -41,12 +46,24 @@ class RegisterAuthyService implements ShouldQueue
 
     protected function getAuthyId()
     {
-        extract(Mobile::authy($this->user->mobile));
-
-        $email = "$code$number@serbis.io";
-
         return app('rinvex.authy.user')
-            ->register($email, $number, $code)
+            ->register($this->getEmail(), $this->getNumber(), $this->getCountryCode())
             ->get('user')['id'];
     }
+
+    protected function getCountryCode()
+    {
+        return $this->proto->getCountryCode();
+    }
+
+    protected function getNumber()
+    {
+        return $this->proto->getNationalNumber();
+    }
+
+    protected function getEmail()
+    {
+        return $this->getCountryCode() . $this->getNumber() . "@serbis.io";   
+    }
+
 }

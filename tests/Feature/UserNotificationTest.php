@@ -25,17 +25,14 @@ class UserNotificationTest extends TestCase
     /** @test */
     public function user_can_be_notified_for_phone_verification()
     {
-    	$user = factory(User::class)->create([
-    		'mobile' => '+639173011987',
-    		'authy_id' => '7952368',
-    	]);
+    	$user = factory(User::class)->create();
    
    		Notification::fake();
 
    		$actionName = $this->faker->word;
    		$actionMessage = $this->faker->sentence;
 
-		  $user->notify(new PhoneVerification('sms', true, $actionName, $actionMessage));
+		$user->notify(new PhoneVerification('sms', true, $actionName, $actionMessage));
 
         Notification::assertSentTo($user,
         	PhoneVerification::class,

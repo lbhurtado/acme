@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Tightenco\Parental\ReturnsChildModels;
 use Acme\Domains\Secretariat\Models\Placement;
 use CawaKharkov\LaravelBalance\Interfaces\UserHasBalance;
-use Acme\Domains\Users\Traits\{HasBalance, HasNotifications, HasSchemalessAttributes, IsVerifiable};
+use Acme\Domains\Users\Traits\{HasBalance, HasNotifications, HasSchemalessAttributes, IsVerifiable, IsObservable};
 
 class User extends Model implements UserHasBalance
 {
@@ -22,6 +22,8 @@ class User extends Model implements UserHasBalance
     use HasNotifications;
 
     use IsVerifiable;
+
+    use IsObservable;
 
     protected $guard_name = 'web';
 

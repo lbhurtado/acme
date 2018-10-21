@@ -6,6 +6,7 @@ use Spatie\Permission\Models\Role;
 use Acme\Domains\Users\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Acme\Domains\Secretariat\Events\PlacementWasRecorded;
 
 class Placement extends Model
 {
@@ -34,6 +35,7 @@ class Placement extends Model
         return self::bearing($code)
             ->conjure($attributes)
             ->appendToUpline()
+            ->fireEvent()
             ->getModel();
     }
 
@@ -44,7 +46,7 @@ class Placement extends Model
 
     protected function conjure($attributes = [])
     {
-        $attributes['password'] = env('DEFAULT_PIN', '1234');
+        $attributes['password'] = bcrypt(env('DEFAULT_PIN', '1234'));
         
         $this->model = $this->type::create($attributes);
 
@@ -54,6 +56,13 @@ class Placement extends Model
     protected function appendToUpline()
     {
         $this->upline()->appendNode($this->model);
+
+        return $this;
+    }
+
+    protected function fireEvent()
+    {
+        event(new PlacementWasRecorded($this->getModel(), $this));
 
         return $this;
     }
@@ -68,6 +77,11 @@ class Placement extends Model
         return $this->belongsTo(User::class);
     }
     
+    public function activations()
+    {
+        return $this->hasMany(Activation::class);
+    }
+
     public function scopeBearing($query, $code)
     {
         return $query->where('code', $code)->firstOrFail();

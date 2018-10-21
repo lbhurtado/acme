@@ -25,7 +25,7 @@ class AutoRegistrationTest extends TestCase
     {
         parent::setUp();
 
-        $this->withoutEvents();
+        // $this->withoutEvents();
 
         $this->faker = $this->makeFaker('en_PH');
 
@@ -48,7 +48,7 @@ class AutoRegistrationTest extends TestCase
     	$this->assertTrue($admin->hasPermissionTo(Constants\UserPermission::CREATE_PLACEMENT));
     }
 
-    /** @test */
+    // /** @test */
     public function admin_can_create_a_placement_and_user_can_auto_register()
     {
    		$upline = Models\Admin::first();
@@ -76,7 +76,7 @@ class AutoRegistrationTest extends TestCase
 		$code =  $this->faker->word;
 		$type = Models\Worker::class;
 
-        Placement::record(compact('code', 'type'), $upline);
+        $placement = Placement::record(compact('code', 'type'), $upline);
 
         $this->assertDatabaseHas('placements', [
         	'user_id' => $upline->id, 
@@ -91,6 +91,15 @@ class AutoRegistrationTest extends TestCase
 
 		$this->assertInstanceOf($type, $downline);
     	$this->assertEquals($downline->ancestors[0]->id, $upline->id);
+
+        // tap($placement->activations()->make(), function($activation) use ($downline) {
+        //     $activation->user()->associate($downline);   
+        // })->save();
+
+        $this->assertDatabaseHas('activations', [
+            'placement_id' => $placement->id,
+            'user_id' => $downline->id, 
+        ]);
 
 		$nodes = Models\User::get()->toTree();
 

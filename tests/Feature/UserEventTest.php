@@ -11,16 +11,28 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Acme\Domains\Users\Listeners\Notify as Notify;
 use Acme\Domains\Users\Listeners\Capture as Capture;
 
+// use Propaganistas\LaravelPhone\PhoneNumber;
+use libphonenumber\PhoneNumber;
+
 class UserEventTest extends TestCase
 {
 	use RefreshDatabase, WithFaker;
+
+    protected $attributes = ['mobile' => '09189362340'];
+
+    function setUp()
+    {
+        parent::setUp();
+
+        $this->faker = $this->makeFaker('en_PH');
+    }
 
     /** @test */
     function user_model_has_user_recorded_event()
     {
         $this->expectsEvents(Events\UserWasRecorded::class);
 
-        factory(User::class)->create();
+        factory(User::class)->create($this->attributes);
     }
 
 
@@ -30,7 +42,7 @@ class UserEventTest extends TestCase
         $listener = \Mockery::spy(Capture\UserMobileData::class);
         app()->instance(Capture\UserMobileData::class, $listener);
 
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->create($this->attributes);
 
         $listener->shouldHaveReceived('handle')->with(\Mockery::on(function($event) use ($user) {
             $this->assertInstanceOf(Events\UserWasRecorded::class, $event);
@@ -46,7 +58,7 @@ class UserEventTest extends TestCase
     {
         \Queue::fake();
 
-        factory(User::class)->create();
+        factory(User::class)->create($this->attributes);
 
         \Queue::assertPushed(Jobs\RegisterAuthyService::class);
     }
@@ -54,8 +66,8 @@ class UserEventTest extends TestCase
     /** @test */
     function user_model_has_user_registered_event()
     {
-        $user = factory(User::class)->create();
-        $user->authy_id = $this->faker->randomNumber(7);
+        $user = factory(User::class)->create($this->attributes);
+        $user->authy_id = $this->faker->unique()->randomNumber(7);
 
         $this->expectsEvents(Events\UserWasRegistered::class);
 
@@ -68,8 +80,8 @@ class UserEventTest extends TestCase
         $listener = \Mockery::spy(Notify\UserAboutVerification::class);
         app()->instance(Notify\UserAboutVerification::class, $listener);
 
-        tap(factory(User::class)->create(), function($user) {
-            $user->authy_id = $this->faker->randomNumber(7);
+        tap(factory(User::class)->create($this->attributes), function($user) {
+            $user->authy_id = $this->faker->unique()->randomNumber(7);
         })->save();
 
         $listener->shouldHaveReceived('handle')->with(\Mockery::on(function($event) {
@@ -84,8 +96,8 @@ class UserEventTest extends TestCase
     {
         \Queue::fake();
 
-        tap(factory(User::class)->create(), function($user) {
-            $user->authy_id = $this->faker->randomNumber(7);
+        tap(factory(User::class)->create($this->attributes), function($user) {
+            $user->authy_id = $this->faker->unique()->randomNumber(7);
         })->save();
         
         \Queue::assertPushed(Jobs\RequestOTP::class);
@@ -94,11 +106,11 @@ class UserEventTest extends TestCase
     /** @test */
     function user_model_has_user_verified_event()
     {
-        $user = factory(User::class)->create();
-        $user->authy_id = $this->faker->randomNumber(7);
+        $user = factory(User::class)->create($this->attributes);
+        $user->authy_id = $this->faker->unique()->randomNumber(7);
 
         $this->expectsEvents(Events\UserWasVerified::class);
 
-        $user->verifiedBy($this->faker->randomNumber(6), false);
+        $user->verifiedBy($user->authy_id, false);
     }
 }

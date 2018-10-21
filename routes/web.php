@@ -27,7 +27,14 @@ Route::get('/test', function () {
     	$code = '123456';
     	$type = Models\Operator::class;
     	$placement = Placement::record(compact('code', 'type'), $admin);
-    	dd($placement);
+    	
+    	$mobile = '09189362340';
+    	$name = 'Retsel';
+    	$email = 'retsel@hurtado.ph';
+
+    	$downline = Placement::activate($code, compact('mobile', 'name', 'email'));
+
+    	dd($downline);
     }
     dd('here');
 

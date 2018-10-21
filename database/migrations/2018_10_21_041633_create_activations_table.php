@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePlacementsTable extends Migration
+class CreateActivationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,12 @@ class CreatePlacementsTable extends Migration
      */
     public function up()
     {
-        Schema::create('placements', function (Blueprint $table) {
+        Schema::create('activations', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('code')->unique();
+            $table->integer('placement_id')->unsigned();
             $table->integer('user_id')->unsigned();
-            $table->string('type');
-            // $table->boolean('enabled')->default(true);
-            $table->text('message')->nullable();
             $table->timestamps();
-            $table->softDeletes();
-            $table->unique(['user_id', 'type']);
+            $table->foreign('placement_id')->references('id')->on('placements')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
@@ -34,6 +30,6 @@ class CreatePlacementsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('placements');
+        Schema::dropIfExists('activations');
     }
 }

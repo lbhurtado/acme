@@ -2,7 +2,6 @@
 
 namespace Acme\Providers;
 
-use Acme\Domains\Users\Models\User;
 use Illuminate\Support\ServiceProvider;
 use Acme\Domains\Users\Observers\UserObserver;
 
@@ -15,7 +14,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        User::observe(UserObserver::class);
+        // User::observe(UserObserver::class);
+        // Operator::observe(UserObserver::class);
     }
 
     /**
