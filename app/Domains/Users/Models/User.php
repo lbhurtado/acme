@@ -38,6 +38,7 @@ class User extends Model implements UserHasBalance
 		'name',
         'email',
         'type',
+        'authy_id',
         'password'
 	];
 
@@ -48,5 +49,10 @@ class User extends Model implements UserHasBalance
     public function placements()
     {
         return $this->hasMany(Placement::class);
+    }
+
+    public function getAuthyId()
+    {
+        return $this->authy_id ?? 'zero';
     }
 }

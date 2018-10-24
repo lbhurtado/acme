@@ -26,6 +26,6 @@ class UserAboutVerification
      */
     public function handle($event)
     {
-        RequestOTP::dispatch($event->user);
+        RequestOTP::dispatch($event->user)->delay(now()->addSeconds(10));
     }
 }

@@ -10,8 +10,15 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+
 use Acme\Domains\Users\Models as Models;
+use Illuminate\Support\Facades\Validator;
+use Propaganistas\LaravelPhone\PhoneNumber;
 use Acme\Domains\Secretariat\Models\Placement;
+use Acme\Domains\Secretariat\Events\UserWasFlagged;
+use Acme\Domains\Users\Jobs\RequestOTP;
+use Acme\Domains\Users\Notifications\PhoneVerification;
 
 Route::get('/', function () {
     return view('welcome');
@@ -21,21 +28,28 @@ Route::match(['get', 'post'], '/botman', 'BotManController@handle');
 Route::get('/botman/tinker', 'BotManController@tinker');
 
 Route::get('/test', function () {
-    $admin = Models\Admin::first();
 
-    if ($admin->hasPermissionTo('create placement')) {
-    	$code = '123456';
-    	$type = Models\Operator::class;
-    	$placement = Placement::record(compact('code', 'type'), $admin);
-    	
-    	$mobile = '09189362340';
-    	$name = 'Retsel';
-    	$email = 'retsel@hurtado.ph';
+    $user = Models\Operator::find(25);
+    // dd($user);
+        event(new UserWasFlagged($user));
+        // RequestOTP::dispatch($user);
+    // $user->notify(new PhoneVerification('sms', true));
 
-    	$downline = Placement::activate($code, compact('mobile', 'name', 'email'));
+    // if (validate($mobile)) {
 
-    	dd($downline);
-    }
-    dd('here');
+    //     dd(trans('registration.input.mobile'));
 
+    //     $attributes = [
+    //         'mobile' => '09178251991',
+    //         // 'name' => 'Test User',
+    //     ];
+
+    //     optional(Placement::activate($code, $attributes), function($model) {
+
+    //         dd($model);
+    //     });
+
+    // }
+
+    dd('should not be here!');
 });

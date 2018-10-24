@@ -51,7 +51,9 @@ class UserTest extends TestCase
     /** @test */
     public function user_has_persistent_mobile_attribute()
     {
-    	$mobile = config('acme.test.user1.mobile');
+
+        $mobile = phone(config('acme.test.user1.mobile'), 'PH', 'E164');
+
     	factory(User::class)->create(compact('mobile'));
 
         $this->assertDatabaseHas('users', compact('mobile'));

@@ -32,11 +32,15 @@ class Placement extends Model
 
     public static function activate($code, $attributes = [])
     {
-        return self::bearing($code)
-            ->conjure($attributes)
-            ->appendToUpline()
-            ->fireEvent()
-            ->getModel();
+        return optional(self::bearing($code)->first())->wake($attributes);
+    }
+
+    public function wake($attributes)
+    {
+        return  $this->conjure($attributes)
+                        ->appendToUpline()
+                        ->fireEvent()
+                        ->getModel();
     }
 
     protected function upline()
@@ -69,7 +73,7 @@ class Placement extends Model
 
     protected function getModel()
     {
-        return $this->model;
+        return $this->model ?? false;
     }
 
     public function user()
@@ -84,6 +88,6 @@ class Placement extends Model
 
     public function scopeBearing($query, $code)
     {
-        return $query->where('code', $code)->firstOrFail();
+        return $query->where('code', $code);
     }
 }

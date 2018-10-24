@@ -3,10 +3,16 @@
 namespace Acme\Domains\Users\Observers;
 
 use Acme\Domains\Users\Models\User;
+use Acme\Domains\Secretariat\Models\Phone;
 use Acme\Domains\Users\Events\{UserWasRecorded, UserWasRegistered, UserWasVerified};
 
 class UserObserver
 {
+    public function creating(User $user)
+    {
+        $user->mobile = Phone::number($user->mobile);
+    }
+    
     /**
      * Handle the user "created" event.
      *

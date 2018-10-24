@@ -6,9 +6,9 @@ use Tests\TestCase;
 use Spatie\Permission\Models\Role;
 use Acme\Domains\Users\Models as Models;
 use Illuminate\Foundation\Testing\WithFaker;
-use Acme\Domains\Secretariat\Models\Placement;
 use Acme\Domains\Users\Constants as Constants;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Acme\Domains\Secretariat\Models\{Placement, Tag};
 
 class AutoRegistrationTest extends TestCase
 {
@@ -31,6 +31,7 @@ class AutoRegistrationTest extends TestCase
 
         $this->artisan('db:seed', ['--class' => 'DatabaseSeeder']);
     }
+    
     /** @test */
     public function admin_is_seeded()
     {
@@ -92,10 +93,6 @@ class AutoRegistrationTest extends TestCase
 		$this->assertInstanceOf($type, $downline);
     	$this->assertEquals($downline->ancestors[0]->id, $upline->id);
 
-        // tap($placement->activations()->make(), function($activation) use ($downline) {
-        //     $activation->user()->associate($downline);   
-        // })->save();
-
         $this->assertDatabaseHas('activations', [
             'placement_id' => $placement->id,
             'user_id' => $downline->id, 
@@ -114,6 +111,23 @@ class AutoRegistrationTest extends TestCase
 		$traverse($nodes);
         echo PHP_EOL.' ';
         echo PHP_EOL.' ';
+
+    }
+
+    /** @test */
+    public function placements_are_seeded()
+    {
+        $user = Models\Admin::first();
+        foreach(Tag::$classes as $key => $values) {
+            $code = $key;
+            $type = $values;
+
+            $this->assertDatabaseHas('placements', [
+                'user_id' => $user->id, 
+                'code' => $code,
+                'type' => $type,
+            ]);   
+        }
 
     }
 }

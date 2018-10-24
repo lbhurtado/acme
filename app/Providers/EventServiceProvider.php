@@ -25,6 +25,12 @@ class EventServiceProvider extends ServiceProvider
         Secretariat\Events\PlacementWasRecorded::class => [
             Secretariat\Listeners\Capture\UserCodeType::class,
         ],
+        // Events\UserWasFlagged::class => [
+        //     Listeners\Notify\UserAboutVerification::class,
+        // ],
+        'Acme\Domains\Secretariat\Events\UserWasFlagged' => [
+            'Acme\Domains\Users\Listeners\Notify\UserAboutVerification'
+        ],
     ];
 
     /**

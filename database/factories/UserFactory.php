@@ -24,14 +24,17 @@ $children = [
     Models\Worker::class,
 ];
 
+
 foreach ($children as $child) {
     $factory->define($child, function (Faker $faker) {
+
 	    static $password;
-    	$faker = FakerFactory::create('en_PH');
+    	
+        $faker = FakerFactory::create('en_PH');
 
 	    return [
 	        'name' => $faker->username,
-	        'mobile' => $faker->mobileNumber,
+            'mobile' => $faker->mobileNumber,
 	        'email' => $faker->unique()->safeEmail,
 	        'password' => $password ?: $password = bcrypt('1234'),
             // 'authy_id' => $faker->randomNumber(7),
