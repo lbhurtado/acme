@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Validator;
 use Propaganistas\LaravelPhone\PhoneNumber;
 use Acme\Domains\Secretariat\Models\Placement;
 use Acme\Domains\Secretariat\Events\UserWasFlagged;
+use Acme\Domains\Messenger\Events\UserWasTagged;
 use Acme\Domains\Users\Jobs\RequestOTP;
 use Acme\Domains\Users\Notifications\PhoneVerification;
 
@@ -29,9 +30,10 @@ Route::get('/botman/tinker', 'BotManController@tinker');
 
 Route::get('/test', function () {
 
-    $user = Models\Operator::find(25);
+    event(new UserWasTagged('operator', ['mobile' => '09178251991']));
+    // $user = Models\Operator::first();
     // dd($user);
-        event(new UserWasFlagged($user));
+        // event(new UserWasFlagged($user));
         // RequestOTP::dispatch($user);
     // $user->notify(new PhoneVerification('sms', true));
 

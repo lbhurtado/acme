@@ -28,6 +28,9 @@ class EventServiceProvider extends ServiceProvider
         // Events\UserWasFlagged::class => [
         //     Listeners\Notify\UserAboutVerification::class,
         // ],
+        'Acme\Domains\Messenger\Events\UserWasTagged' => [
+            'Acme\Domains\Messenger\Listeners\Notify\PlacementAboutActivation'
+        ],
         'Acme\Domains\Secretariat\Events\UserWasFlagged' => [
             'Acme\Domains\Users\Listeners\Notify\UserAboutVerification'
         ],

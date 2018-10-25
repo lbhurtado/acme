@@ -11,16 +11,16 @@ class SecretariatTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
-    // function setUp()
-    // {
-    //     parent::setUp();
+    function setUp()
+    {
+        parent::setUp();
 
-    //     $this->withoutEvents();
+        $this->withoutEvents();
 
-    //     $this->faker = $this->makeFaker('en_PH');
+        $this->faker = $this->makeFaker('en_PH');
 
-    //     $this->artisan('db:seed', ['--class' => 'DatabaseSeeder']);
-    // }
+        $this->artisan('db:seed', ['--class' => 'DatabaseSeeder']);
+    }
 
     // /** @test */
     // public function bot_can_tag_placements()
@@ -51,4 +51,14 @@ class SecretariatTest extends TestCase
     //         ->assertQuestion(trans('registration.input.code'))             
     //         ;
     // }
+
+    /** @test */
+    public function bot_can_register_user()
+    {
+        $this->bot
+            ->receives('register 09178251991 operator')  
+            ->assertReply(trans('registration.input.pin'))            
+            ;
+    }
+
 }

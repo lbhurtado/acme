@@ -30,6 +30,7 @@ $botman->hears('info|/info|\?', CommonController::class.'@info')->skipsConversat
 
 $botman->hears('tag {arguments}', SecretariatController::class.'@tag');
 
+$botman->hears('register {arguments}', SecretariatController::class.'@register');
 
 $botman->hears('register|/register', function (BotMan $bot) {
     $bot->startConversation(new Registration());

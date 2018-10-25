@@ -21,7 +21,7 @@ class UserObserver
      */
     public function created(User $user)
     {
-        event(new UserWasRecorded($user));
+        // event(new UserWasRecorded($user));
     }
 
     /**
@@ -32,16 +32,16 @@ class UserObserver
      */
     public function updated(User $user)
     {
-        if ($user->wasRecentlyCreated == true) {
-            if ($user->isDirty('authy_id') && ! empty($user->authy_id)) {
+        // if ($user->wasRecentlyCreated == true) {
+        //     if ($user->isDirty('authy_id') && ! empty($user->authy_id)) {
 
-                event(new UserWasRegistered($user));
-            }
-        }
-        if ($user->isDirty('verified_at') && ! $user->isVerificationStale()) {
+        //         event(new UserWasRegistered($user));
+        //     }
+        // }
+        // if ($user->isDirty('verified_at') && ! $user->isVerificationStale()) {
 
-            event(new UserWasVerified($user));
-        }
+        //     event(new UserWasVerified($user));
+        // }
     }
 
     /**
